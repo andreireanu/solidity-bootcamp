@@ -16,4 +16,13 @@ contract TokenSale {
         paymentToken = _paymentToken;
         nftCollection = _nftCollection;
     }
+
+    function buyTokens() external payable {
+        paymentToken.mint (msg.sender ,msg.value * ratio);
+    }
+
+    function returnsToken(uint256 amount) external {
+        paymentToken.burnFrom(msg.sender, amount);
+        payable(msg.sender).transfer(amount/ratio);
+    }
 }

@@ -41,6 +41,19 @@ async function main() {
     `The Balance of Acc1 is ${formatEther(otherBalance)} ETH`
     );
 
+    const lastBlockNumber = await publicClient.getBlockNumber();
+    for (let index = lastBlockNumber - 1n; index > 0n; index--) {
+      const pastVotes = await contract.read.getPastVotes([
+        acc1.account.address,
+        index,
+      ]);
+      console.log(
+        `Account ${
+          acc1.account.address
+        } had ${pastVotes.toString()} units of voting power at block ${index}\n`
+      );
+    }
+
 }
 
 main().catch((err) => {
